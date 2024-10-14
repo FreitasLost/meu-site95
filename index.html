@@ -1,0 +1,645 @@
+<html><head><base href="https://www.adsurvivior.com/extreme-edition/">
+<title>SURVIVE POP UP ADS! EXTREME EDITION 🔥🔥🔥</title>
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+#game-container, #main-menu, #tutorial, #shop {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#game-container {
+    display: none;
+}
+#player {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #00ff00;
+    border-radius: 50%;
+    transition: all 0.05s linear;
+    pointer-events: none;
+    z-index: 1000;
+}
+.ad {
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.8);
+    border: 2px solid #ff0000;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    animation: shake 0.5s infinite;
+    z-index: 100;
+}
+.popup {
+    position: fixed;
+    background-color: #ffffff;
+    color: #000000;
+    border: 3px solid #0000ff;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 200;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.popup-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ff0000;
+}
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+#score, #level, #game-over, #timer, #currency {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+}
+#score { left: 10px; top: 10px; }
+#level { right: 10px; top: 10px; }
+#timer { left: 10px; bottom: 10px; }
+#currency { right: 10px; bottom: 10px; }
+#game-over {
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+}
+h1, h2, h3 {
+    color: #ff0000;
+    text-shadow: 2px 2px 4px #000000;
+}
+h1 {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+h3 {
+    font-size: 24px;
+}
+.btn {
+    font-size: 24px;
+    padding: 15px 30px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+.btn:hover {
+    background-color: #ff3333;
+    transform: scale(1.1);
+}
+#tutorial, #shop {
+    display: none;
+    text-align: center;
+    padding: 20px;
+}
+#tutorial p, #shop .shop-item {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+@keyframes clickFeedback {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+#shop {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+}
+.shop-section {
+    margin-bottom: 20px;
+}
+.shop-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.shop-item img {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.shop-item button {
+    margin-left: 10px;
+}
+#donation-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+}
+#donation-popup h2 {
+    color: #00a8e8;
+    margin-bottom: 10px;
+}
+#donation-popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+</style>
+</head>
+<body>
+<audio id="background-music" loop></audio>
+<div id="main-menu">
+    <h1>SOBREVIVA A PROPAGANDA!<br>ULTIMATE EDITION 🔥🔥🔥</h1>
+    <button class="btn" onclick="showTutorial()">Tutorial de Jogo</button>
+    <button class="btn" onclick="startGame()">Iniciar Jogo</button>
+    <button class="btn" onclick="showShop()">Loja</button>
+</div>
+
+<div id="tutorial">
+    <h1>How to Play</h1>
+    <p>1. Mova o mouse para controlar o círculo verde (o cursor).</p>
+    <p>2. Clique em qualquer lugar da tela para sobreviver, mas evite clicar em anúncios!</p>
+    <p>3. Você deve clicar pelo menos uma vez a cada 5 segundos para permanecer vivo.</p>
+    <p>4. Sobreviva o máximo que puder para ganhar pontos.</p>
+    <p>5. O jogo fica mais difícil à medida que você sobe de nível.</p>
+    <p>6. Se você clicar em um anúncio ou não clicar por 5 segundos, é FIM DE JOGO!</p>
+    <p>7. Cuidado com os pop-ups! Feche-os rapidamente sem clicar dentro!</p>
+    <button class="btn" onclick="showMainMenu()">Volte para o Menu</button>
+</div>
+
+<div id="shop">
+    <h2>Loja</h2>
+    <div id="currency">Currency: <span id="currency-amount">0</span></div>
+    <div class="shop-section">
+        <h3>Papeis de Parede</h3>
+        <div id="background-options"></div>
+    </div>
+    <div class="shop-section">
+        <h3>Musicas</h3>
+        <div id="music-options"></div>
+    </div>
+    <button class="btn" onclick="showMainMenu()">Voltar</button>
+</div>
+
+<div id="game-container">
+    <button id="music-toggle" class="btn" onclick="toggleMusic()">🔇 Musica Off</button>
+    <div id="player"></div>
+    <div id="score">Score: 0</div>
+    <div id="level">Level: 1</div>
+    <div id="timer">Time left: 5s</div>
+    <div id="game-over">Voce clicou no anuncio<br><span id="final-score"></span><br>Click para restart</div>
+</div>
+
+<script>
+const mainMenu = document.getElementById('main-menu') || document.createElement('div');
+const tutorial = document.getElementById('tutorial') || document.createElement('div');
+const gameContainer = document.getElementById('game-container') || document.createElement('div');
+const player = document.getElementById('player') || document.createElement('div');
+const scoreElement = document.getElementById('score') || document.createElement('div');
+const levelElement = document.getElementById('level') || document.createElement('div');
+const timerElement = document.getElementById('timer') || document.createElement('div');
+const gameOverElement = document.getElementById('game-over') || document.createElement('div');
+const finalScoreElement = document.getElementById('final-score') || document.createElement('span');
+
+let audioElement;
+let score = 0;
+let level = 1;
+let adInterval;
+let popupInterval;
+let timerInterval;
+let gameActive = false;
+let lastTime = 0;
+let playerPos = { x: 0, y: 0 };
+let targetPos = { x: 0, y: 0 };
+let timeLeft = 5;
+
+let currency = 0;
+let purchasedBackgrounds = ['default'];
+let purchasedMusic = ['none'];
+let currentBackground = 'default';
+let currentMusic = 'none';
+
+const popupContents = [
+    "Parabéns! Você ganhou um cruzeiro GRÁTIS!",
+    "Seu computador pode estar em risco! Clique aqui para digitalizar agora!",
+    "Solteiros gostosos em sua área querem conhecê-lo!",
+    "Você é o 1.000.000º visitante! Reivindique seu prêmio agora!",
+    "Notícias de última hora: Clique aqui para ler mais!",
+    "Oferta por tempo limitado: 90% de desconto em tudo!",
+    "Seu sistema está lento. Otimize agora!",
+    "Novas oportunidades de trabalho na sua área!",
+    "Herança do senor abravanel para todos, clique aqui!",
+    "Responda à nossa pesquisa e ganhe prêmios incríveis!"
+];
+
+const shopItems = {
+    backgrounds: [
+        { name: 'default', price: 0, url: '' },
+        { name: 'Windows XP', price: 300, url: 'https://d7hftxdivxxvm.cloudfront.net/?quality=80&resize_to=width&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2RNK1P0BYVrSCZEy_Sd1Ew%252F3417757448_4a6bdf36ce_o.jpg&width=910' },
+        { name: 'Céu', price: 1000, url: 'https://images.pexels.com/photos/912110/pexels-photo-912110.jpeg?cs=srgb&dl=pexels-elia-clerici-282848-912110.jpg&fm=jpg' },
+        { name: 'Cidade Futurista', price: 2500, url: 'https://cdn.openart.ai/uploads/upscaled/futuristic-cityscape-pixel-art-with-vaporwave-sun-dark-purple-and-dark-red...rt-futuristic-cityscape-vaporwave-dark-colors-phone-homescreen-background_WcvHvqZY_upscaled.jpg' }
+    ],
+    music: [
+        { name: 'Elevator Music', price: 500, url: 'https://www.chosic.com/wp-content/uploads/2021/09/Elevator-music(chosic.com).mp3' },
+        { name: 'Musica Secreta', price: 750, url: 'https://cdn.pixabay.com/audio/2024/10/09/audio_9d172383de.mp3' }
+    ]
+};
+
+function showMainMenu() {
+    if (mainMenu) mainMenu.style.display = 'flex';
+    if (tutorial) tutorial.style.display = 'none';
+    if (gameContainer) gameContainer.style.display = 'none';
+    const shop = document.getElementById('shop');
+    if (shop) shop.style.display = 'none';
+    const musicToggle = document.getElementById('music-toggle');
+    if (musicToggle) musicToggle.style.display = 'none';
+    if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+    }
+}
+
+function showTutorial() {
+    if (mainMenu) mainMenu.style.display = 'none';
+    if (tutorial) tutorial.style.display = 'flex';
+    if (gameContainer) gameContainer.style.display = 'none';
+    const shop = document.getElementById('shop');
+    if (shop) shop.style.display = 'none';
+}
+
+function showShop() {
+    if (mainMenu) mainMenu.style.display = 'none';
+    const shop = document.getElementById('shop');
+    if (shop) shop.style.display = 'flex';
+    if (gameContainer) gameContainer.style.display = 'none';
+    updateShop();
+}
+
+function updateShop() {
+    const currencyAmount = document.getElementById('currency-amount');
+    if (currencyAmount) currencyAmount.textContent = currency;
+    updateShopSection('background-options', 'backgrounds');
+    updateShopSection('music-options', 'music');
+}
+
+function updateShopSection(elementId, itemType) {
+    const container = document.getElementById(elementId);
+    if (container) {
+        container.innerHTML = '';
+        shopItems[itemType].forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'shop-item';
+            if (itemType === 'backgrounds') {
+                itemElement.innerHTML = `<img src="${item.url}" alt="${item.name}">`;
+            }
+            itemElement.innerHTML += `
+                <span>${item.name}</span>
+                <button onclick="purchaseItem('${itemType}', '${item.name}')" 
+                    ${purchasedBackgrounds.includes(item.name) || purchasedMusic.includes(item.name) ? 'disabled' : ''}>
+                    ${purchasedBackgrounds.includes(item.name) || purchasedMusic.includes(item.name) ? 'Owned' : `Buy (${item.price})`}
+                </button>
+                ${purchasedBackgrounds.includes(item.name) || purchasedMusic.includes(item.name) ? 
+                    `<button onclick="useItem('${itemType}', '${item.name}')">Use</button>` : ''}
+            `;
+            container.appendChild(itemElement);
+        });
+    }
+}
+
+function purchaseItem(itemType, itemName) {
+    const item = shopItems[itemType].find(i => i.name === itemName);
+    if (currency >= item.price) {
+        currency -= item.price;
+        if (itemType === 'backgrounds') {
+            purchasedBackgrounds.push(itemName);
+        } else {
+            purchasedMusic.push(itemName);
+        }
+        updateShop();
+    } else {
+        alert("Voce nao tem dinheiro");
+    }
+}
+
+function useItem(itemType, itemName) {
+    if (itemType === 'backgrounds') {
+        currentBackground = itemName;
+        updateGameBackground();
+    } else {
+        currentMusic = itemName;
+        updateGameMusic();
+    }
+}
+
+function updateGameBackground() {
+    const background = shopItems.backgrounds.find(b => b.name === currentBackground);
+    if (background && gameContainer) {
+        gameContainer.style.backgroundImage = `url('${background.url}')`;
+        gameContainer.style.backgroundSize = 'cover';
+        gameContainer.style.backgroundPosition = 'center';
+    } else if (gameContainer) {
+        gameContainer.style.backgroundImage = 'none';
+        gameContainer.style.backgroundColor = '#1a1a1a';
+    }
+}
+
+function updateGameMusic() {
+    audioElement = document.getElementById('background-music');
+    if (!audioElement) {
+        console.error("Background music element not found");
+        return;
+    }
+    const music = shopItems.music.find(m => m.name === currentMusic);
+    if (music && music.url) {
+        audioElement.src = music.url;
+        audioElement.play().catch(e => console.error("Error playing audio:", e));
+    } else {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+    }
+}
+
+function toggleMusic() {
+    const musicToggle = document.getElementById('music-toggle');
+    audioElement = document.getElementById('background-music');
+    if (!audioElement) {
+        console.error("Audio element not found");
+        return;
+    }
+    if (audioElement.paused) {
+        audioElement.play().catch(e => console.error("Error playing audio:", e));
+        if (musicToggle) musicToggle.textContent = "🔊 Music On";
+    } else {
+        audioElement.pause();
+        if (musicToggle) musicToggle.textContent = "🔇 Music Off";
+    }
+}
+
+function startGame() {
+    if (mainMenu) mainMenu.style.display = 'none';
+    if (tutorial) tutorial.style.display = 'none';
+    if (gameContainer) gameContainer.style.display = 'block';
+    restartGame();
+    updateGameBackground();
+    audioElement = document.getElementById('background-music');
+    if (!audioElement) {
+        console.error("Background music element not found");
+    } else {
+        updateGameMusic();
+    }
+    const musicToggle = document.getElementById('music-toggle');
+    if (musicToggle) musicToggle.style.display = 'block';
+}
+
+function updateScore(points) {
+    score += points;
+    currency += points;
+    if (scoreElement) scoreElement.textContent = `Score: ${score}`;
+    if (score >= level * 100) {
+        levelUp();
+    }
+}
+
+function restartGame() {
+    score = 0;
+    level = 1;
+    gameActive = true;
+    if (scoreElement) scoreElement.textContent = 'Score: 0';
+    if (levelElement) levelElement.textContent = 'FreitasGame';
+    resetTimer();
+    gameOverElement.style.display = 'none';
+    Array.from(document.getElementsByClassName('ad')).forEach(ad => ad.remove());
+    Array.from(document.getElementsByClassName('popup')).forEach(popup => popup.remove());
+    adInterval = setInterval(createAd, 1000);
+    popupInterval = setInterval(createPopup, 3000);
+    timerInterval = setInterval(updateTimer, 1000);
+    lastTime = 0;
+    if (gameContainer) {
+        gameContainer.removeEventListener('click', handleClick, { capture: true });
+        gameContainer.addEventListener('click', handleClick, { capture: true });
+    }
+    requestAnimationFrame(animatePlayer);
+}
+
+function updateTimer() {
+    timeLeft--;
+    if (timerElement) timerElement.textContent = `Time left: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+        gameOver("voce perdeu tempo!");
+    }
+}
+
+function resetTimer() {
+    timeLeft = 5;
+    if (timerElement) timerElement.textContent = `Time left: ${timeLeft}s`;
+}
+
+function gameOver(reason) {
+    gameActive = false;
+    clearInterval(adInterval);
+    clearInterval(popupInterval);
+    clearInterval(timerInterval);
+    gameOverElement.style.display = 'block';
+    finalScoreElement.textContent = `Final Score: ${score}\n${reason}`;
+}
+
+function createAd() {
+    if (!gameActive) return;
+    const ad = document.createElement('div');
+    ad.className = 'ad';
+    ad.style.left = `${Math.random() * (gameContainer.offsetWidth - 200)}px`;
+    ad.style.top = `${Math.random() * (gameContainer.offsetHeight - 100)}px`;
+    ad.style.width = `${100 + Math.random() * 100}px`;
+    ad.style.height = `${50 + Math.random() * 50}px`;
+    ad.innerHTML = 'Clique aqui!<br>Voce ganhoy um iPhone 23!';
+    ad.onclick = () => {
+        gameOver("Voce clicou no anuncio!");
+    };
+    gameContainer.appendChild(ad);
+    
+    setTimeout(() => {
+        if (gameContainer && gameContainer.contains(ad)) {
+            gameContainer.removeChild(ad);
+        }
+    }, 2000 / level);
+}
+
+function createPopup() {
+    if (!gameActive) return;
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.style.left = `${Math.random() * (window.innerWidth - 300)}px`;
+    popup.style.top = `${Math.random() * (window.innerHeight - 200)}px`;
+    popup.style.width = '300px';
+    
+    const content = popupContents[Math.floor(Math.random() * popupContents.length)];
+    popup.innerHTML = `
+        <span class="popup-close" onclick="closePopup(this.parentNode, false)">X</span>
+        <h3>Important Message!</h3>
+        <p>${content}</p>
+        <button>OK</button>
+    `;
+    
+    popup.onclick = (e) => {
+        closePopup(popup, e.target.tagName !== 'SPAN');
+        e.stopPropagation();
+    };
+    
+    document.body.appendChild(popup);
+    
+    setTimeout(() => {
+        if (document.body && document.body.contains(popup)) {
+            document.body.removeChild(popup);
+        }
+    }, 5000 / level);
+}
+
+function closePopup(popup, isClick) {
+    if (isClick) {
+        gameOver("You clicked on a popup!");
+    } else {
+        document.body.removeChild(popup);
+        updateScore(5);
+    }
+}
+
+function levelUp() {
+    level++;
+    if (levelElement) levelElement.textContent = `Level: ${level}`;
+    clearInterval(adInterval);
+    clearInterval(popupInterval);
+    adInterval = setInterval(createAd, 1000 / level);
+    popupInterval = setInterval(createPopup, 3000 / level);
+}
+
+function animatePlayer(currentTime) {
+    if (!lastTime) lastTime = currentTime;
+    const deltaTime = currentTime - lastTime;
+    lastTime = currentTime;
+
+    if (gameActive) {
+        const speed = 0.3;
+        playerPos.x += (targetPos.x - playerPos.x) * speed;
+        playerPos.y += (targetPos.y - playerPos.y) * speed;
+
+        player.style.left = `${Math.max(0, Math.min(playerPos.x, gameContainer.offsetWidth - player.offsetWidth))}px`;
+        player.style.top = `${Math.max(0, Math.min(playerPos.y, gameContainer.offsetHeight - player.offsetHeight))}px`;
+
+        requestAnimationFrame(animatePlayer);
+    }
+}
+
+function updatePlayerPosition(e) {
+    if (!gameActive) return;
+    targetPos.x = e.clientX - player.offsetWidth / 2;
+    targetPos.y = e.clientY - player.offsetHeight / 2;
+}
+
+function handleClick(e) {
+    if (!gameActive) return;
+    if (e.target.classList.contains('ad') || e.target.classList.contains('popup')) return;
+
+    const clickFeedback = document.createElement('div');
+    clickFeedback.style.position = 'absolute';
+    clickFeedback.style.left = `${e.clientX}px`;
+    clickFeedback.style.top = `${e.clientY}px`;
+    clickFeedback.style.width = '20px';
+    clickFeedback.style.height = '20px';
+    clickFeedback.style.borderRadius = '50%';
+    clickFeedback.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+    clickFeedback.style.pointerEvents = 'none';
+    clickFeedback.style.animation = 'clickFeedback 0.5s ease-out';
+    gameContainer.appendChild(clickFeedback);
+
+    setTimeout(() => {
+        if (gameContainer) {
+            gameContainer.removeChild(clickFeedback);
+        }
+    }, 500);
+
+    resetTimer();
+    updateScore(1);
+}
+
+function showDonationPopup() {
+    const popup = document.createElement('div');
+    popup.id = 'donation-popup';
+    popup.innerHTML = `
+        <span class="close-btn" onclick="closeDonationPopup()">&times;</span>
+        <h2>Support the Developer</h2>
+        <p>If you're enjoying the game, consider supporting the developer!</p>
+        <iframe id='kofiframe' src='https://ko-fi.com/timoshq/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='712' title='timoshq'></iframe>
+    `;
+    document.body.appendChild(popup);
+    popup.style.display = 'block';
+}
+
+function closeDonationPopup() {
+    const popup = document.getElementById('donation-popup');
+    if (popup) {
+        document.body.removeChild(popup);
+    }
+}
+
+if (gameContainer) {
+    gameContainer.addEventListener('mousemove', updatePlayerPosition);
+    gameContainer.addEventListener('click', handleClick, { capture: true });
+}
+
+if (gameOverElement) {
+    gameOverElement.addEventListener('click', showMainMenu);
+}
+
+if (mainMenu && tutorial && gameContainer) {
+    showMainMenu();
+} else {
+    console.error('Some required elements are missing from the DOM');
+}
+</script>
+</body></html>
